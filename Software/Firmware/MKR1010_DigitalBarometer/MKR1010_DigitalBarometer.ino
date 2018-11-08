@@ -30,7 +30,7 @@ static int sensor_period = 5000;
 long lastReconnectAttempt = 0;
 
 
-float prevTemperatureC = 0.0;
+static float prevTemperatureC = 0.0;
 int fanSpeed = 0;
 
 
