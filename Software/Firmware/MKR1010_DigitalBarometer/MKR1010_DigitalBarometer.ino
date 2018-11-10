@@ -16,24 +16,13 @@ const int BLUECOLOR = 150;
 
 
 static int heartbeat_timer = 0;
-
-// ongoing timer counter for sensor
 static int sensor_timer = 0;
-
-// set heartbeat period in milliseconds
 static int heartbeat_period = 60000;
-
-// set sensor transmit period in milliseconds
 static int sensor_period = 5000;
-
-// track time when last connection error occurs
 long lastReconnectAttempt = 0;
-
 
 static float prevTemperatureC = 0.0;
 int fanSpeed = 0;
-
-
 
 float pressureKPA = 0.0;
 float temperatureC = 0.0;
