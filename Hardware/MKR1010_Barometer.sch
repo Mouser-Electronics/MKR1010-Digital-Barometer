@@ -3147,11 +3147,23 @@ In this library the device names are the same as the pin names of the symbols, t
 <part name="SUPPLY1" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 <part name="SUPPLY2" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 <part name="SUPPLY3" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
+<part name="J4" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="1X2" device="-3.5MM" package3d_urn="urn:adsk.eagle:package:6240635/1"/>
+<part name="J5" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="1X2" device="-3.5MM" package3d_urn="urn:adsk.eagle:package:6240635/1"/>
+<part name="SUPPLY4" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
 <plain>
 <text x="0" y="58.42" size="1.778" layer="94" rot="R90">MKR1010</text>
+<text x="43.18" y="45.72" size="1.778" layer="91">To LED Matrix</text>
+<text x="43.18" y="12.7" size="1.778" layer="91">To MPL115A2 Sensor</text>
+<text x="45.72" y="38.1" size="1.778" layer="91">Data In
+Vcc</text>
+<text x="45.72" y="30.48" size="1.778" layer="91">GND</text>
+<text x="45.72" y="5.08" size="1.778" layer="91">SCL
+SDA</text>
+<text x="45.72" y="-5.08" size="1.778" layer="91">Vcc
+GND</text>
 </plain>
 <instances>
 <instance part="MKR1010" gate="G$1" x="0" y="58.42" smashed="yes" rot="R270"/>
@@ -3185,6 +3197,11 @@ In this library the device names are the same as the pin names of the symbols, t
 </instance>
 <instance part="SUPPLY3" gate="GND" x="30.48" y="20.32" smashed="yes">
 <attribute name="VALUE" x="28.575" y="17.145" size="1.778" layer="96"/>
+</instance>
+<instance part="J4" gate="G$1" x="38.1" y="5.08" smashed="yes"/>
+<instance part="J5" gate="G$1" x="38.1" y="-5.08" smashed="yes"/>
+<instance part="SUPPLY4" gate="GND" x="30.48" y="-10.16" smashed="yes">
+<attribute name="VALUE" x="28.575" y="-13.335" size="1.778" layer="96"/>
 </instance>
 </instances>
 <busses>
@@ -3238,6 +3255,12 @@ In this library the device names are the same as the pin names of the symbols, t
 <pinref part="SUPPLY1" gate="GND" pin="GND"/>
 <wire x1="-22.86" y1="91.44" x2="-22.86" y2="88.9" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="J5" gate="G$1" pin="2"/>
+<wire x1="33.02" y1="-5.08" x2="30.48" y2="-5.08" width="0.1524" layer="91"/>
+<pinref part="SUPPLY4" gate="GND" pin="GND"/>
+<wire x1="30.48" y1="-5.08" x2="30.48" y2="-7.62" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="N$5" class="0">
 <segment>
@@ -3265,6 +3288,27 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="15.24" y1="30.48" x2="15.24" y2="38.1" width="0.1524" layer="91"/>
 <pinref part="J2" gate="G$1" pin="2"/>
 <wire x1="15.24" y1="38.1" x2="33.02" y2="38.1" width="0.1524" layer="91"/>
+<pinref part="J5" gate="G$1" pin="1"/>
+<wire x1="33.02" y1="-2.54" x2="-17.78" y2="-2.54" width="0.1524" layer="91"/>
+<wire x1="-17.78" y1="-2.54" x2="-17.78" y2="30.48" width="0.1524" layer="91"/>
+<junction x="-17.78" y="30.48"/>
+</segment>
+</net>
+<net name="N$6" class="0">
+<segment>
+<pinref part="MKR1010" gate="G$1" pin="SCK"/>
+<pinref part="J4" gate="G$1" pin="1"/>
+<wire x1="-12.7" y1="38.1" x2="-12.7" y2="7.62" width="0.1524" layer="91"/>
+<wire x1="-12.7" y1="7.62" x2="33.02" y2="7.62" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$7" class="0">
+<segment>
+<pinref part="MKR1010" gate="G$1" pin="MISO"/>
+<wire x1="-12.7" y1="40.64" x2="-15.24" y2="40.64" width="0.1524" layer="91"/>
+<wire x1="-15.24" y1="40.64" x2="-15.24" y2="5.08" width="0.1524" layer="91"/>
+<pinref part="J4" gate="G$1" pin="2"/>
+<wire x1="-15.24" y1="5.08" x2="33.02" y2="5.08" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
@@ -3273,6 +3317,10 @@ In this library the device names are the same as the pin names of the symbols, t
 </schematic>
 </drawing>
 <compatibility>
+<note version="6.3" minversion="6.2.2" severity="warning">
+Since Version 6.2.2 text objects can contain more than one line,
+which will not be processed correctly with this version.
+</note>
 <note version="8.2" severity="warning">
 Since Version 8.2, EAGLE supports online libraries. The ids
 of those online libraries will not be understood (or retained)
