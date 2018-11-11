@@ -14,27 +14,29 @@ const int DELAYAMOUNT = 500;
 const int REDCOLOR = 150;
 const int BLUECOLOR = 150;
 
-static int HEARTBEATMS = 0;
-static int SENSORTIMER = 0;
-static int HEARTBEATPERIOD = 60000;
-static int SENSORPERIOD = 5000;
+static int heartbeatMs = 0;
+static int sensorTimer = 0;
+static int heartbeatPeriod = 60000;
+static int sensorPeriod = 5000;
 long lastReconnectAttempt = 0;
 unsigned long lastConnectionTime = 0;
 const unsigned long postingInterval = 20L * 1000L;
-
-static float prevTemperatureC = 0.0;
-int fanSpeed = 0;
 
 float pressureKPA = 0.0;
 float temperatureC = 0.0;
 int pressureKPA_INTEGER = 0;
 int temperatureC_INTEGER = 0;
+static float prevTemperatureC = 0.0;
+
+static int fanSpeed = 0;
 
 int status = WL_IDLE_STATUS;
 
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, LEDPIN, NEO_GRB + NEO_KHZ800);
 Adafruit_MPL115A2 mpl115a2;
 WiFiClient wifiClient;
+
+
 
 
 void setup() {
@@ -131,8 +133,8 @@ void handleSensor() {
     prevTemperatureC = temperatureC;
 
 
-    if ((millis() - SENSORTIMER) > SENSORPERIOD) {
-      SENSORTIMER = millis();
+    if ((millis() - sensorTimer) > sensorPeriod) {
+      sensorTimer = millis();
 
       String payload = "{\"event_data\":{\"temperature\":";
       payload += temperatureC;
@@ -189,8 +191,8 @@ void loop() {
 
 
 void heartbeat_loop() {
-  if ((millis() - HEARTBEATMS) > HEARTBEATPERIOD) {
-    HEARTBEATMS = millis();
+  if ((millis() - heartbeatMs) > heartbeatPeriod) {
+    heartbeatMs = millis();
     String payload = "{\"event_data\":{\"millis\":";
     payload += millis();
     payload += ",\"heartbeat\":true}}";
