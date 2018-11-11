@@ -14,12 +14,13 @@ const int DELAYAMOUNT = 500;
 const int REDCOLOR = 150;
 const int BLUECOLOR = 150;
 
-
-static int heartbeat_timer = 0;
-static int sensor_timer = 0;
-static int heartbeat_period = 60000;
-static int sensor_period = 5000;
+static int HEARTBEATMS = 0;
+static int SENSORTIMER = 0;
+static int HEARTBEATPERIOD = 60000;
+static int SENSORPERIOD = 5000;
 long lastReconnectAttempt = 0;
+unsigned long lastConnectionTime = 0;
+const unsigned long postingInterval = 20L * 1000L;
 
 static float prevTemperatureC = 0.0;
 int fanSpeed = 0;
@@ -28,9 +29,6 @@ float pressureKPA = 0.0;
 float temperatureC = 0.0;
 int pressureKPA_INTEGER = 0;
 int temperatureC_INTEGER = 0;
-
-unsigned long lastConnectionTime = 0;
-const unsigned long postingInterval = 20L * 1000L;
 
 int status = WL_IDLE_STATUS;
 
@@ -133,8 +131,8 @@ void handleSensor() {
     prevTemperatureC = temperatureC;
 
 
-    if ((millis() - sensor_timer) > sensor_period) {
-      sensor_timer = millis();
+    if ((millis() - SENSORTIMER) > SENSORPERIOD) {
+      SENSORTIMER = millis();
 
       String payload = "{\"event_data\":{\"temperature\":";
       payload += temperatureC;
@@ -191,8 +189,8 @@ void loop() {
 
 
 void heartbeat_loop() {
-  if ((millis() - heartbeat_timer) > heartbeat_period) {
-    heartbeat_timer = millis();
+  if ((millis() - HEARTBEATMS) > HEARTBEATPERIOD) {
+    HEARTBEATMS = millis();
     String payload = "{\"event_data\":{\"millis\":";
     payload += millis();
     payload += ",\"heartbeat\":true}}";
