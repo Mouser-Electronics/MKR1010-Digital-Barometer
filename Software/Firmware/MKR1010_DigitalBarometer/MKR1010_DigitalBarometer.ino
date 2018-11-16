@@ -1,15 +1,12 @@
 /***************************************************************************
-  This is an example of program for connected the Adafruit Huzzah and BMP280
-  to the Medium One Prototyping Sandbox.  Visit www.medium.one for more information.
-  Author: Medium One
-  Last Revision Date: May 1, 2018
+ MKR1010 Digital Galileo Thermometer and Glass Globe Barometer
+
+  
   The program includes a library and portions of sample code from Adafruit
   with their description below:
   This is a library for the BMP280 humidity, temperature & pressure sensor
   Designed specifically to work with the Adafruit BMEP280 Breakout
   ----> http://www.adafruit.com/products/2651
-  These sensors use I2C or SPI to communicate, 2 or 4 pins are required
-  to interface.
   Adafruit invests time and resources providing this open source code,
   please support Adafruit andopen-source hardware by purchasing products
   from Adafruit!
@@ -19,7 +16,7 @@
 
 #include <PubSubClient.h>
 #include <Adafruit_NeoPixel.h>
-#include <WiFi101.h>
+#include <WiFiNINA.h>
 #include <Wire.h>
 #include <SPI.h>
 #include <Adafruit_BMP085.h>
@@ -32,7 +29,7 @@ const int DELAYAMOUNT = 500;
 const int REDCOLOR = 150;
 const int BLUECOLOR = 150;
 
-Adafruit_BMP085 bmp; // I2C
+Adafruit_BMP085 bmp;
 
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, LEDPIN, NEO_GRB + NEO_KHZ800);
 
@@ -54,8 +51,10 @@ void setup() {
   WiFi.begin(myssid, myssidpw);
   delay(5000);
 
-  if (WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED) {
     Serial.println(F("Failed to connect, resetting"));
+    WiFi.begin(myssid, myssidpw);
+    delay(1000);
   }
 
   Serial.println(F("Connected to Wifi!"));
@@ -93,13 +92,9 @@ PubSubClient client(server, port, callback, wifiClient);
 
 boolean connectMQTT()
 {
-  // Important Note: MQTT requires a unique id (UUID), we are using the mqtt_username as the unique ID
-  // Besure to create a new device ID if you are deploying multiple devices.
-  // Learn more about Medium One's self regisration option on docs.mediumone.com
   if (client.connect((char*) mqtt_username, (char*) mqtt_username, (char*) mqtt_password)) {
     Serial.println(F("Connected to MQTT broker"));
 
-    // send a connect message
     if (client.publish((char*) pub_topic, "{\"event_data\":{\"mqtt_connected\":true}}")) {
       Serial.println("Publish connected message ok");
     } else {
@@ -107,7 +102,6 @@ boolean connectMQTT()
       Serial.println(String(client.state()));
     }
 
-    // subscrive to MQTT topic
     if (client.subscribe((char *)sub_topic, 1)) {
       Serial.println(F("Successfully subscribed"));
     } else {
@@ -133,7 +127,6 @@ void loop() {
       }
     }
   } else {
-    // Client connected
     client.loop();
   }
   heartbeat_loop();
@@ -152,8 +145,6 @@ void bmp_loop() {
     payload += tempC;
     payload += ",\"pressure\":";
     payload += pressureKPA;
-    //payload += ",\"altitude\":";
-    //payload += bmp.readAltitude(1013.25);
     payload += "}}";
 
     if (client.loop()) {
@@ -194,6 +185,8 @@ void heartbeat_loop() {
     }
   }
 }
+
+
 
 
 void displayResults(float tempC, float pressureKPA) {
