@@ -26,8 +26,8 @@ const int LEDPIN = 6;
 const int FANPIN = 7;
 const int NUMPIXELS = 64;
 const int DELAYAMOUNT = 500;
-const int REDCOLOR = 150;
-const int BLUECOLOR = 150;
+const int REDCOLOR = 25;
+const int BLUECOLOR = 25;
 
 Adafruit_BMP085 bmp;
 
