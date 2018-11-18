@@ -28,6 +28,10 @@ const int NUMPIXELS = 64;
 const int DELAYAMOUNT = 500;
 const int REDCOLOR = 25;
 const int BLUECOLOR = 25;
+const int LOWPRESSURE = 85;
+const int HIGHPRESSURE = 110;
+const int FANLOWSPEED = 193;
+const int FANHIGHSPEED = 255;
 
 Adafruit_BMP085 bmp;
 
@@ -206,6 +210,6 @@ void displayResults(float tempC, float pressureKPA) {
   pixels.show();
   prevTempC = tempC;
 
-  int fanSpeed = map((int)pressureKPA, 85, 110, 0, 255);
+  int fanSpeed = map((int)pressureKPA, LOWPRESSURE, HIGHPRESSURE, FANLOWSPEED, FANHIGHSPEED);
   analogWrite(FANPIN, fanSpeed);
 }
